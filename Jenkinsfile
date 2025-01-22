@@ -1,11 +1,13 @@
 pipeline {
-    agent none
+    agent any
+    tools {
+        maven 'Maven_Auto_Install'
+    }
     stages {
-        stage("Build & Analyse avec SonarQube") {
-            agent any
+        stage('Build & Analyse avec SonarQube') {
             steps {
                 script {
-                    // Commande Maven pour compiler et exécuter l'analyse SonarQube
+                    // Commande Maven pour construire et analyser
                     sh 'mvn clean package sonar:sonar'
                 }
             }
