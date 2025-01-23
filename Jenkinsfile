@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven_Auto_Install' // Maven configuré automatiquement dans Jenkins
+        maven 'Maven_Auto_Install'
     }
     
     environment {
@@ -31,18 +31,21 @@ pipeline {
                 '''
             }
         }
-        
-        stage('Dependency-Check Analysis') {
+
+        stage('deploy & OWASP Dependency-Check') {
+            agent any
             steps {
-                echo 'Running OWASP Dependency-Check'
-                sh '''
-                $DEPENDENCY_CHECK_HOME/bin/dependency-check.sh --scan . \
-                    --format HTML \
-                    --out dependency-check-report.html
-                '''
+                dependencyCheck additionalArguments: '''
+                -o './' \
+                -s './' \
+                -f 'ALL' \
+                --prettyPrint''', 
+                odcInstallation: 'owasp-dependency'
+                
+                dependencyCheckPublisher pattern: 'dependency-check-report.xml'
             }
         }
-        
+
         stage('Publish Dependency-Check Report') {
             steps {
                 echo 'Publishing Dependency-Check Report'
