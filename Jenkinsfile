@@ -27,5 +27,27 @@ pipeline {
                 '''
             }
         }
+        
+        stage('Dependency-Check Analysis') {
+            steps {
+                echo 'Running OWASP Dependency-Check'
+                sh '''
+                dependency-check.sh --scan . \
+                    --format HTML \
+                    --out dependency-check-report.html
+                '''
+            }
+        }
+        
+        stage('Publish Dependency-Check Report') {
+            steps {
+                echo 'Publishing Dependency-Check Report'
+                publishHTML(target: [
+                    reportDir: '.',
+                    reportFiles: 'dependency-check-report.html',
+                    reportName: 'Dependency-Check Report'
+                ])
+            }
+        }
     }
 }
