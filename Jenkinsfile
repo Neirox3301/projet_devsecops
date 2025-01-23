@@ -1,7 +1,11 @@
 pipeline {
     agent any
     tools {
-        maven 'Maven_Auto_Install'
+        maven 'Maven_Auto_Install' // Maven configuré automatiquement dans Jenkins
+    }
+    
+    environment {
+        DEPENDENCY_CHECK_HOME = tool name: 'DependencyCheck_Auto', type: 'hudson.plugins.dependencycheck.DependencyCheckInstallation'
     }
     
     stages {
@@ -32,7 +36,7 @@ pipeline {
             steps {
                 echo 'Running OWASP Dependency-Check'
                 sh '''
-                dependency-check.sh --scan . \
+                $DEPENDENCY_CHECK_HOME/bin/dependency-check.sh --scan . \
                     --format HTML \
                     --out dependency-check-report.html
                 '''
