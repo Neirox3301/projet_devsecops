@@ -1,7 +1,7 @@
 pipeline {
     agent any
     tools {
-        maven 'maven'
+        maven ''Maven_Auto_Install'
     }
     
     stages {
