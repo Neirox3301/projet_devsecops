@@ -7,6 +7,6 @@
     <packaging>jar</packaging>
     <properties>
         <sonar.projectKey>TEST</sonar.projectKey>
-        <sonar.host.url>http://172.17.0.5:9000/</sonar.host.url>
+        <sonar.host.url>http://10.0.5.2:9000/</sonar.host.url>
     </properties>
 </project>
